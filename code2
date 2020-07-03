@@ -7,7 +7,7 @@ struct queue //очередь
 	int que[N];
 	int quefirst,quelast;
 };
-void inqueue(struct queue* q) //инициализация очереди
+void inqueue(struct queue* q) //инициализация очереди.
 {
 	q->quefirst = 1;
 	q->quelast = 0;
