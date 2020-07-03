@@ -1,0 +1,96 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#define N 20
+struct queue //очередь
+{
+	int que[N];
+	int quefirst,quelast;
+};
+void inqueue(struct queue* q) //инициализация очереди
+{
+	q->quefirst = 1;
+	q->quelast = 0;
+	return;
+}
+void insert(struct queue* q, int x) //добавление в очередь
+{
+	if (q->quelast < N - 1) 
+	{
+		q->quelast++;
+		q->que[q->quelast] = x;
+	}
+	else
+		printf("queue is empty\n");
+	return;
+}
+int isempty(struct queue* q) //проверка пуста ли очередь
+{
+	if (q->quelast < q->quefirst)    
+		return 1;
+	else  return 0;
+}
+void print(struct queue* q) //вывод элементов
+{
+	int h;
+	if (isempty(q) == 1) 
+	{
+		printf("queue is empty\n");
+		return;
+	}
+	for (h = q->quefirst; h <= q->quelast; h++)
+		printf("%d ", q->que[h]);
+	return;
+}
+int removex(struct queue* q)
+{
+	int x;
+	if (isempty(q) == 1) {
+		printf("queue is empty\n");
+		return(0);
+	}
+	x = q->que[q->quefirst];
+	q->quefirst++;
+	return x;
+}
+void check(int matrsmej[N][N], int nodesfun[N])
+{
+	struct queue* q;
+	q = malloc(sizeof(struct queue));
+	while (isempty(nodesfun) == 1)
+	{
+		int node = removex;//извлекаю вершину
+		nodesfun[node] = 2;//отмечаю что посетил 
+		for (int j = 0; j < N; j++)
+		{
+			if (matrsmej[node][j] == 1 && nodesfun[j] == 0)
+			{
+				insert(q, nodesfun[j]); //если вершина смежна и не обнаружена добавляю в очередь
+				nodesfun[j] = 1;//отметил как обнаруженую 
+			}
+		}
+		print(q);//вывести номер вершины
+	}
+}
+void main()
+{
+		int q;
+		int i, j;
+		int matr[N][N];
+		scanf("%d", &N);
+		for (i = 0; i < N; i++);
+		{
+			for (j = 0; j < N; j++)
+			{
+				scanf("%d", matr[i][j]);
+			}
+		}
+
+		int nodes[N];//вершины графа
+		for (int i = 0; i < N; i++)
+		{
+			nodes[i] = 0;//исходно все вершины равны 0
+		}
+		check(matr[N][N], nodes[N]);
+		system("pause");
+}
